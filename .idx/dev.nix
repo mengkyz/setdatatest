@@ -3,15 +3,23 @@
 {pkgs}: {
   # Which nixpkgs channel to use.
   channel = "stable-24.11"; # or "unstable"
+  
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.nodejs_22
     pkgs.yarn
     pkgs.nodePackages.pnpm
     pkgs.bun
+    pkgs.chromium
   ];
+
   # Sets environment variables in the workspace
-  env = {};
+  env = {
+    PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
+    # ชี้ Path แบบเต็มของ Chromium ส่งไปให้ฝั่ง Node.js ใช้งาน
+    CHROMIUM_PATH = "${pkgs.chromium}/bin/chromium";
+  };
+  
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
